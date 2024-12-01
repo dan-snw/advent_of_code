@@ -1,6 +1,11 @@
+#!/usr/bin/env python3
+import requests
+import sys
 import argparse
 import shutil
 import os
+from dotenv import load_dotenv
+
 from datetime import datetime
 
 def formatDay(day):
@@ -38,6 +43,21 @@ def replace_text_in_file(file_path, old_text, new_text):
     except Exception as e:
         print(f"Error while replacing text: {e}")
 
+def write_input(day, year):
+    inputFile = f"../AOC/Inputs/{year}/Day{day}.txt";
+    if os.path.exists(inputFile):
+        return;
+    load_dotenv()
+    url = f"https://adventofcode.com/{year}/day/{int(day)}/input"
+    headers = {"Cookie": f"session={os.getenv('aoc_token')}"}
+    r = requests.get(url, headers=headers)
+ 
+    if r.status_code == 200:
+        with open(inputFile, "w") as file:
+            file.write(r.text)
+    else:
+        sys.exit(f"/api/alerts response: {r.status_code}: {r.reason} \n{r.content}")
+
 def main():
     parser = argparse.ArgumentParser(description = "Process day and year flags.")
     
@@ -64,6 +84,8 @@ def main():
     replace_text_in_file(destination_path, "YEAR_NUMBER", year)
     replace_text_in_file(destination_path, "CLASS_NAME", f"Day{day}")
     replace_text_in_file(destination_path, "DAY_NUMBER", f"{int(day)}")
+
+    write_input(day, year)
 
 if __name__ == "__main__":
     main()
