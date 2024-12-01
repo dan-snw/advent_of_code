@@ -6,13 +6,14 @@ namespace AOC.Tests.Days2024;
 
 public class Day01Tests
 {
+    private const string TestInput = "3   4\n4   3\n2   5\n1   3\n3   9\n3   3";
+
     [Fact]
     public void Day01_ParseAndSolveP1_ReturnCorrectAnswer()
     {
         // Arrange
         Day01 day = new();
-        const string testInput = "3   4\n4   3\n2   5\n1   3\n3   9\n3   3";
-        var testInputStream = MethodsForTesting.StringToStreamReader(testInput);
+        var testInputStream = MethodsForTesting.StringToStreamReader(TestInput);
 
         // Act
         var result = day.ParseAndSolveP1(testInputStream);
@@ -26,13 +27,12 @@ public class Day01Tests
     {
         // Arrange
         Day01 day = new();
-        const string testInput = "";
-        var testInputStream = MethodsForTesting.StringToStreamReader(testInput);
+        var testInputStream = MethodsForTesting.StringToStreamReader(TestInput);
 
         // Act
         var result = day.ParseAndSolveP2(testInputStream);
 
         // Assert
-        result.Should().Be(0);
+        result.Should().Be(31);
     }
 }
