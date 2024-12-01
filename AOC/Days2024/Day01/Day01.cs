@@ -16,22 +16,13 @@ public class Day01 : Day<(List<int>, List<int>), int, (List<int>, Dictionary<int
             list1.Add(Convert.ToInt32(inputLine?[0]));
             list2.Add(Convert.ToInt32(inputLine?[1]));
         }
+        list1.Sort();
+        list2.Sort();
         return (list1, list2);
     }
 
-    protected override int SolvePart1((List<int>, List<int>) parsedInput)
-    {
-        var list1 = parsedInput.Item1;
-        var list2 = parsedInput.Item2;
-        var sumOfDifferences = 0;
-        list1.Sort();
-        list2.Sort();
-        for (int i = 0; i < list1.Count; i++)
-        {
-            sumOfDifferences += Math.Abs(list1[i] - list2[i]);
-        }
-        return sumOfDifferences;
-    }
+    protected override int SolvePart1((List<int>, List<int>) parsedInput) =>
+        parsedInput.Item1.Select((t, i) => Math.Abs(t - parsedInput.Item2[i])).Sum();
 
     protected override (List<int>, Dictionary<int, int>) ParseInputPart2(StreamReader input)
     {
