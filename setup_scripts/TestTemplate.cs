@@ -1,39 +1,38 @@
-using AOC.Days2024.Day02;
+using AOC.DaysYEAR_NUMBER.CLASS_NAME;
 using AOC.Tests.Common;
 using FluentAssertions;
 
-namespace AOC.Tests.Days2024;
+namespace AOC.Tests.DaysYEAR_NUMBER;
 
-public class Day02Tests
+public class CLASS_NAMETests
 {
-    private const string TestInput =
-        "7 6 4 2 1\n1 2 7 8 9\n9 7 6 2 1\n1 3 2 4 5\n8 6 4 4 1\n1 3 6 7 9";
+    private const string TestInput = "";
 
     [Fact]
-    public void Day02_ParseAndSolveP1_ReturnCorrectAnswer()
+    public void CLASS_NAME_ParseAndSolveP1_ReturnCorrectAnswer()
     {
         // Arrange
-        Day02 day = new();
+        CLASS_NAME day = new();
         var testInputStream = MethodsForTesting.StringToStreamReader(TestInput);
 
         // Act
         var result = day.ParseAndSolveP1(testInputStream);
 
         // Assert
-        result.Should().Be(2);
+        result.Should().Be(0);
     }
 
     [Fact]
-    public void Day02_ParseAndSolveP2_ReturnCorrectAnswer()
+    public void CLASS_NAME_ParseAndSolveP2_ReturnCorrectAnswer()
     {
         // Arrange
-        Day02 day = new();
+        CLASS_NAME day = new();
         var testInputStream = MethodsForTesting.StringToStreamReader(TestInput);
 
         // Act
         var result = day.ParseAndSolveP2(testInputStream);
 
         // Assert
-        result.Should().Be(4);
+        result.Should().Be(0);
     }
 }
