@@ -10,7 +10,7 @@ public class Day02 : Day<List<Report>, int, List<Report>, int>
         var records = new List<Report>();
         while (!input.EndOfStream)
         {
-            records.Add(new(input.ReadLine()!.Split(" ").Select(int.Parse).ToArray()));
+            records.Add(new(input.ReadLine()!.Split(" ").Select(int.Parse).ToList()));
         }
         return records;
     }
@@ -19,5 +19,5 @@ public class Day02 : Day<List<Report>, int, List<Report>, int>
 
     protected override List<Report> ParseInputPart2(StreamReader input) => ParseInputPart1(input);
 
-    protected override int SolvePart2(List<Report> parsedInput) => SolvePart1(parsedInput);
+    protected override int SolvePart2(List<Report> reports) => reports.Count(x => x.IsSafe(true));
 }
