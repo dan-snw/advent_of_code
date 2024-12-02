@@ -4,6 +4,7 @@ import sys
 import argparse
 import shutil
 import os
+import json
 from dotenv import load_dotenv
 
 from datetime import datetime
@@ -99,6 +100,15 @@ def main():
     
     replace_text_in_file(destination_path_test, "YEAR_NUMBER", year)
     replace_text_in_file(destination_path_test, "CLASS_NAME", f"Day{day}")
+    
+    appsettings = {
+        "Run": {
+            "Year": year,
+            "Day": f"{int(day)}"
+        }
+    }
+    with open("../AOC/appsettings.json", "w") as file:
+        json.dump(appsettings, file)
 
     write_input(day, year)
 
