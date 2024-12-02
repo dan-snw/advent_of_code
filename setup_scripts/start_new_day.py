@@ -70,9 +70,9 @@ def main():
     year = formatYear(args.year)
     
     source_path = os.path.expanduser("./DayTemplate.cs")
-    destination_directoy = f"../AOC/Days{year}/Day{day}"
-    os.makedirs(destination_directoy, exist_ok = True) 
-    destination_path = os.path.expanduser(f"{destination_directoy}/Day{day}.cs")
+    destination_directory = f"../AOC/Days{year}/Day{day}"
+    os.makedirs(destination_directory, exist_ok = True) 
+    destination_path = os.path.expanduser(f"{destination_directory}/Day{day}.cs")
 
     try:
         shutil.copy(source_path, destination_path)
@@ -84,6 +84,21 @@ def main():
     replace_text_in_file(destination_path, "YEAR_NUMBER", year)
     replace_text_in_file(destination_path, "CLASS_NAME", f"Day{day}")
     replace_text_in_file(destination_path, "DAY_NUMBER", f"{int(day)}")
+    
+    source_path_test = os.path.expanduser("./TestTemplate.cs")
+    destination_directory_test = f"../AOC.Tests/Days{year}"
+    os.makedirs(destination_directory_test, exist_ok = True) 
+    destination_path_test = os.path.expanduser(f"{destination_directory_test}/Day{day}Tests.cs")
+
+    try:
+        shutil.copy(source_path_test, destination_path_test)
+    except FileNotFoundError:
+        print(f"Missing test template.")
+    except Exception as e:
+        print(f"Could not copy test template file: {e}")
+    
+    replace_text_in_file(destination_path_test, "YEAR_NUMBER", year)
+    replace_text_in_file(destination_path_test, "CLASS_NAME", f"Day{day}")
 
     write_input(day, year)
 
