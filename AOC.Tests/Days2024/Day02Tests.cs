@@ -10,7 +10,7 @@ public class Day02Tests
         "7 6 4 2 1\n1 2 7 8 9\n9 7 6 2 1\n1 3 2 4 5\n8 6 4 4 1\n1 3 6 7 9";
 
     [Fact]
-    public void Day01_ParseAndSolveP1_ReturnCorrectAnswer()
+    public void Day02_ParseAndSolveP1_ReturnCorrectAnswer()
     {
         // Arrange
         Day02 day = new();
@@ -24,7 +24,7 @@ public class Day02Tests
     }
 
     [Fact]
-    public void Day01_ParseAndSolveP2_ReturnCorrectAnswer()
+    public void Day02_ParseAndSolveP2_ReturnCorrectAnswer()
     {
         // Arrange
         Day02 day = new();
