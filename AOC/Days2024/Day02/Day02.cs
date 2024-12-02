@@ -1,21 +1,23 @@
 namespace AOC.Days2024.Day02;
 
-public class Day02 : Day<string, int, string, int>
+public class Day02 : Day<List<Report>, int, List<Report>, int>
 {
     protected override int DayNumber => 2;
     protected override int Year => 2024;
 
-    protected override string ParseInputPart1(StreamReader input)
+    protected override List<Report> ParseInputPart1(StreamReader input)
     {
-        throw new NotImplementedException();
+        var records = new List<Report>();
+        while (!input.EndOfStream)
+        {
+            records.Add(new(input.ReadLine()!.Split(" ").Select(int.Parse).ToArray()));
+        }
+        return records;
     }
 
-    protected override int SolvePart1(string parsedInput)
-    {
-        throw new NotImplementedException();
-    }
+    protected override int SolvePart1(List<Report> reports) => reports.Count(x => x.IsSafe());
 
-    protected override string ParseInputPart2(StreamReader input) => ParseInputPart1(input);
+    protected override List<Report> ParseInputPart2(StreamReader input) => ParseInputPart1(input);
 
-    protected override int SolvePart2(string parsedInput) => SolvePart1(parsedInput);
+    protected override int SolvePart2(List<Report> parsedInput) => SolvePart1(parsedInput);
 }
