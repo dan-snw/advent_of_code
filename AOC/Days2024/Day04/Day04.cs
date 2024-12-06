@@ -1,21 +1,31 @@
+using AOC.Common;
+
 namespace AOC.Days2024.Day04;
 
-public class Day04 : Day<string, int, string, int>
+public class Day04 : Day<Wordsearch, int, Wordsearch, int>
 {
     protected override int DayNumber => 4;
     protected override int Year => 2024;
 
-    protected override string ParseInputPart1(StreamReader input)
+    protected override Wordsearch ParseInputPart1(StreamReader input)
     {
-        throw new NotImplementedException();
+        var wordSearch = new Wordsearch();
+        var lineNumber = 0;
+        while (!input.EndOfStream)
+        {
+            var line = input.ReadLine();
+            for (var i = 0; i < line!.Length; i++)
+            {
+                wordSearch.Grid.Add(new Coordinate(i, lineNumber), line[i]);
+            }
+            lineNumber++;
+        }
+        return wordSearch;
     }
 
-    protected override int SolvePart1(string parsedInput)
-    {
-        throw new NotImplementedException();
-    }
+    protected override int SolvePart1(Wordsearch wordsearch) => wordsearch.SearchWordsearch("XMAS");
 
-    protected override string ParseInputPart2(StreamReader input) => ParseInputPart1(input);
+    protected override Wordsearch ParseInputPart2(StreamReader input) => ParseInputPart1(input);
 
-    protected override int SolvePart2(string parsedInput) => SolvePart1(parsedInput);
+    protected override int SolvePart2(Wordsearch parsedInput) => SolvePart1(parsedInput);
 }

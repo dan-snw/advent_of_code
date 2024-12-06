@@ -1,3 +1,4 @@
+using AOC.Common;
 using AOC.Days2024.Day04;
 using AOC.Tests.Common;
 using FluentAssertions;
