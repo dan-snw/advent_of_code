@@ -1,5 +1,3 @@
-using AOC.Common;
-
 namespace AOC.Days2024.Day04;
 
 public class Day04 : Day<Wordsearch, int, Wordsearch, int>
@@ -16,7 +14,7 @@ public class Day04 : Day<Wordsearch, int, Wordsearch, int>
             var line = input.ReadLine();
             for (var i = 0; i < line!.Length; i++)
             {
-                wordSearch.Grid.Add(new Coordinate(i, lineNumber), line[i]);
+                wordSearch.Grid.Add(new(i, lineNumber), line[i]);
             }
             lineNumber++;
         }
@@ -27,5 +25,6 @@ public class Day04 : Day<Wordsearch, int, Wordsearch, int>
 
     protected override Wordsearch ParseInputPart2(StreamReader input) => ParseInputPart1(input);
 
-    protected override int SolvePart2(Wordsearch parsedInput) => SolvePart1(parsedInput);
+    protected override int SolvePart2(Wordsearch wordsearch) =>
+        wordsearch.SearchForCrossedWords("MAS");
 }
