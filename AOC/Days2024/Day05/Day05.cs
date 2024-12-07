@@ -54,6 +54,26 @@ public class Day05
         return sumMiddle;
     }
 
+    protected override (Dictionary<int, HashSet<int>>, List<List<int>>) ParseInputPart2(
+        StreamReader input
+    ) => ParseInputPart1(input);
+
+    protected override int SolvePart2((Dictionary<int, HashSet<int>>, List<List<int>>) parsedInput)
+    {
+        var mustComeAfterLookup = parsedInput.Item1;
+        var intLists = parsedInput.Item2;
+        var sumMiddle = 0;
+        foreach (var list in intLists)
+        {
+            if (!IsInOrder(list, mustComeAfterLookup))
+            {
+                var orderedList = Order(list, mustComeAfterLookup);
+                sumMiddle += MiddleNumber(orderedList);
+            }
+        }
+        return sumMiddle;
+    }
+
     private bool IsInOrder(List<int> list, Dictionary<int, HashSet<int>> mustComeAfterLookup)
     {
         for (var i = 0; i < list.Count; i++)
@@ -79,11 +99,29 @@ public class Day05
 
     private int MiddleNumber(List<int> list) => list[list.Count / 2];
 
-    protected override (Dictionary<int, HashSet<int>>, List<List<int>>) ParseInputPart2(
-        StreamReader input
-    ) => ParseInputPart1(input);
-
-    protected override int SolvePart2(
-        (Dictionary<int, HashSet<int>>, List<List<int>>) parsedInput
-    ) => SolvePart1(parsedInput);
+    private List<int> Order(List<int> list, Dictionary<int, HashSet<int>> mustComeAfterLookup)
+    {
+        for (var i = 0; i < list.Count; i++)
+        {
+            var toLookup = list[i];
+            var hasRestrictions = mustComeAfterLookup.TryGetValue(
+                toLookup,
+                out var mustComeAfterSet
+            );
+            if (hasRestrictions)
+            {
+                for (var j = i; j < list.Count; j++)
+                {
+                    if (mustComeAfterSet!.Contains(list[j]))
+                    {
+                        list.Add(list[i]);
+                        list.RemoveAt(i);
+                        i--;
+                        break;
+                    }
+                }
+            }
+        }
+        return list;
+    }
 }
