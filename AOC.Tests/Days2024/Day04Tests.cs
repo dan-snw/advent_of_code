@@ -1,4 +1,3 @@
-using AOC.Common;
 using AOC.Days2024.Day04;
 using AOC.Tests.Common;
 using FluentAssertions;
@@ -7,16 +6,17 @@ namespace AOC.Tests.Days2024;
 
 public class Day04Tests
 {
-    private const string TestInput = "MMMSXXMASM\n" +
-                                     "MSAMXMSMSA\n" +
-                                     "AMXSXMAAMM\n" +
-                                     "MSAMASMSMX\n" +
-                                     "XMASAMXAMM\n" +
-                                     "XXAMMXXAMA\n" +
-                                     "SMSMSASXSS\n" +
-                                     "SAXAMASAAA\n" +
-                                     "MAMMMXMMMM\n" +
-                                     "MXMXAXMASX";
+    private const string TestInput =
+        "MMMSXXMASM\n"
+        + "MSAMXMSMSA\n"
+        + "AMXSXMAAMM\n"
+        + "MSAMASMSMX\n"
+        + "XMASAMXAMM\n"
+        + "XXAMMXXAMA\n"
+        + "SMSMSASXSS\n"
+        + "SAXAMASAAA\n"
+        + "MAMMMXMMMM\n"
+        + "MXMXAXMASX";
 
     [Fact]
     public void Day04_ParseAndSolveP1_ReturnCorrectAnswer()
@@ -43,6 +43,6 @@ public class Day04Tests
         var result = day.ParseAndSolveP2(testInputStream);
 
         // Assert
-        result.Should().Be(0);
+        result.Should().Be(9);
     }
 }
