@@ -6,7 +6,17 @@ namespace AOC.Tests.Days2024;
 
 public class Day06Tests
 {
-    private const string TestInput = "";
+    private const string TestInput =
+        "....#.....\n"
+        + ".........#\n"
+        + "..........\n"
+        + "..#.......\n"
+        + ".......#..\n"
+        + "..........\n"
+        + ".#..^.....\n"
+        + "........#.\n"
+        + "#.........\n"
+        + "......#...";
 
     [Fact]
     public void Day06_ParseAndSolveP1_ReturnCorrectAnswer()
@@ -19,7 +29,7 @@ public class Day06Tests
         var result = day.ParseAndSolveP1(testInputStream);
 
         // Assert
-        result.Should().Be(0);
+        result.Should().Be(41);
     }
 
     [Fact]
