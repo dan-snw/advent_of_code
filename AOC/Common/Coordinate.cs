@@ -14,6 +14,14 @@ public enum CompassPoint
     NorthWest,
 }
 
+public record Position(Coordinate Location, CompassPoint Direction)
+{
+    public Coordinate Location = Location;
+    public CompassPoint Direction = Direction;
+
+    public Position PositionAhead() => this with { Location = Location.GetNext(Direction) };
+}
+
 public record Coordinate(int X, int Y)
 {
     public int X { get; private init; } = X;
