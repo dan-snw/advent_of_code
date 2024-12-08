@@ -14,12 +14,45 @@ public class Map(Dictionary<Coordinate, bool> obstacleMap, Coordinate startingLo
         while (MapContainsPosition(current))
         {
             visited.Add(current.Location);
-            current = PositionAheadIsObstacle(current)
-                ? current.TurnRight()
-                : current.PositionAhead();
+            current = UpdatePosition(current);
         }
         return visited;
     }
+
+    public int CountBlockingOptions()
+    {
+        var naturalPath = GetVisitedPositions();
+        naturalPath.Remove(StartingPosition.Location);
+        var blockingOptions = 0;
+        foreach (var location in naturalPath)
+        {
+            ObstacleMap[location] = true;
+            if (CheckIfLoop())
+            {
+                blockingOptions++;
+            }
+            ObstacleMap[location] = false;
+        }
+        return blockingOptions;
+    }
+
+    private bool CheckIfLoop()
+    {
+        var current = StartingPosition;
+        var visited = new HashSet<Position>();
+        while (MapContainsPosition(current))
+        {
+            if (!visited.Add(current))
+            {
+                return true;
+            }
+            current = UpdatePosition(current);
+        }
+        return false;
+    }
+
+    private Position UpdatePosition(Position current) =>
+        PositionAheadIsObstacle(current) ? current.TurnRight() : current.PositionAhead();
 
     private bool PositionAheadIsObstacle(Position current) =>
         MapContainsPosition(current.PositionAhead())
