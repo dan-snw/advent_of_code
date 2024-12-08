@@ -2,25 +2,38 @@ using AOC.Common;
 
 namespace AOC.Days2024.Day06;
 
-public class Map(Dictionary<Coordinate, bool> obstacleMap, Coordinate startingPosition)
+public class Map(Dictionary<Coordinate, bool> obstacleMap, Coordinate startingLocation)
 {
-    private Coordinate StartingPosition { get; } = startingPosition;
+    private Position StartingPosition { get; } = new(startingLocation, CompassPoint.North);
     private Dictionary<Coordinate, bool> ObstacleMap { get; } = obstacleMap;
 
     public HashSet<Coordinate> GetVisitedPositions()
     {
-        var direction = CompassPoint.North;
-        var position = StartingPosition;
-        var visited = new HashSet<Coordinate> { StartingPosition };
-        while (ObstacleMap.ContainsKey(position.GetNext(direction)))
+        var current = StartingPosition;
+        var visited = new HashSet<Coordinate>();
+        while (MapContainsPosition(current))
         {
-            if (ObstacleMap[position.GetNext(direction)])
-            {
-                direction = Coordinate.RotateDirection90(direction);
-            }
-            position = position.GetNext(direction);
-            visited.Add(position);
+            visited.Add(current.Location);
+            current = PositionAheadIsObstacle(current)
+                ? current.TurnRight()
+                : current.PositionAhead();
         }
         return visited;
     }
+
+    private bool PositionAheadIsObstacle(Position current) =>
+        MapContainsPosition(current.PositionAhead())
+        && ObstacleMap[current.PositionAhead().Location];
+
+    private bool MapContainsPosition(Position position) =>
+        ObstacleMap.ContainsKey(position.Location);
+}
+
+internal static class RecordExtensions
+{
+    internal static Position TurnRight(this Position position) =>
+        position with
+        {
+            Direction = Coordinate.RotateDirection90(position.Direction),
+        };
 }
