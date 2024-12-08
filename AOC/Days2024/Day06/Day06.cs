@@ -32,8 +32,5 @@ public class Day06 : Day<Map, int, Map, int>
 
     protected override Map ParseInputPart2(StreamReader input) => ParseInputPart1(input);
 
-    protected override int SolvePart2(Map map)
-    {
-        return SolvePart1(map);
-    }
+    protected override int SolvePart2(Map map) => map.CountBlockingOptions();
 }
