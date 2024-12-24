@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace AOC.Common;
 
 public enum CompassPoint
@@ -10,6 +12,14 @@ public enum CompassPoint
     SouthWest,
     West,
     NorthWest,
+}
+
+public record Position(Coordinate Location, CompassPoint Direction)
+{
+    public Coordinate Location = Location;
+    public CompassPoint Direction = Direction;
+
+    public Position PositionAhead() => this with { Location = Location.GetNext(Direction) };
 }
 
 public record Coordinate(int X, int Y)
@@ -28,6 +38,9 @@ public record Coordinate(int X, int Y)
             CompassPoint.SouthWest => new(X - 1, Y + 1),
             CompassPoint.West => this with { X = X - 1 },
             CompassPoint.NorthWest => new(X - 1, Y - 1),
-            _ => throw new(),
+            _ => throw new("Compass point does not exist."),
         };
+
+    public static CompassPoint RotateDirection90(CompassPoint compassPoint) =>
+        (int)compassPoint + 2 <= 7 ? compassPoint + 2 : compassPoint - 6;
 }
