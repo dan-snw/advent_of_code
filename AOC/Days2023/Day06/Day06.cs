@@ -7,7 +7,7 @@ public partial class Day06 : Day<List<Race>, long, Race, long>
     protected override int DayNumber => 6;
     protected override int Year => 2023;
 
-    protected override List<Race> ParseInputPart1(StreamReader input)
+    public override List<Race> ParseInputPart1(StreamReader input)
     {
         var raceTimesString = MultipleSpaceRegex().Replace(input.ReadLine(), " ");
         var raceDistancesString = MultipleSpaceRegex().Replace(input.ReadLine(), " ");

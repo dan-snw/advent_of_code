@@ -19,7 +19,7 @@ public abstract class Day<TIn1, TOut1, TIn2, TOut2> : IDay
         CompletePart2();
     }
 
-    protected abstract TIn1 ParseInputPart1(StreamReader input);
+    public abstract TIn1 ParseInputPart1(StreamReader input);
     protected abstract TOut1 SolvePart1(TIn1 input);
     protected abstract TIn2 ParseInputPart2(StreamReader input);
     protected abstract TOut2 SolvePart2(TIn2 input);

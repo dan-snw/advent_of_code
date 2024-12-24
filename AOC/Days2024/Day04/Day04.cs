@@ -5,7 +5,7 @@ public class Day04 : Day<Wordsearch, int, Wordsearch, int>
     protected override int DayNumber => 4;
     protected override int Year => 2024;
 
-    protected override Wordsearch ParseInputPart1(StreamReader input)
+    public override Wordsearch ParseInputPart1(StreamReader input)
     {
         var wordSearch = new Wordsearch();
         var lineNumber = 0;

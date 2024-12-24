@@ -28,7 +28,7 @@ public class Day08 : Day<CamelMaps, int, CamelMaps, long>
         return camelMaps;
     }
 
-    protected override CamelMaps ParseInputPart1(StreamReader input) => ParseInput(input);
+    public override CamelMaps ParseInputPart1(StreamReader input) => ParseInput(input);
 
     protected override CamelMaps ParseInputPart2(StreamReader input) => ParseInput(input);
 
