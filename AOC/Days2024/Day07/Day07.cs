@@ -28,4 +28,24 @@ public class Day07 : Day<List<(int, List<int>)>, int, List<(int, List<int>)>, in
 
     protected override int SolvePart2(List<(int, List<int>)> parsedInput) =>
         SolvePart1(parsedInput);
+
+    public static List<string[]> GetCombinations(int length, string[] characters)
+    {
+        var combinations = new List<string[]>();
+
+        var combinationMax = "";
+        for (var i = 0; i < length; i++)
+        {
+            combinationMax += "1";
+        }
+
+        var fromBase = Convert.ToInt32(combinationMax, characters.Length);
+        for (var i = 0; i <= fromBase; i++)
+        {
+            var inBase = Convert.ToString(i, characters.Length).PadLeft(length, '0');
+            combinations.Add(inBase.Select(bit => characters[int.Parse(bit.ToString())]).ToArray());
+        }
+
+        return combinations;
+    }
 }
