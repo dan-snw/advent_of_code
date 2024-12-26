@@ -7,7 +7,7 @@ public class Day06 : Day<Map, int, Map, int>
     protected override int DayNumber => 6;
     protected override int Year => 2024;
 
-    protected override Map ParseInputPart1(StreamReader input)
+    public override Map ParseInputPart1(StreamReader input)
     {
         var lineNumber = 0;
         var startingPosition = new Coordinate(0, 0);

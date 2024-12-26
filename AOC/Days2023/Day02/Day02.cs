@@ -34,7 +34,7 @@ public class Day02 : Day<List<Game>, int, List<Game>, int>
         return allGames;
     }
 
-    protected override List<Game> ParseInputPart1(StreamReader input) => ParseInput(input);
+    public override List<Game> ParseInputPart1(StreamReader input) => ParseInput(input);
 
     protected override List<Game> ParseInputPart2(StreamReader input) => ParseInput(input);
 

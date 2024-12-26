@@ -31,7 +31,7 @@ public class Day01 : Day<List<(int, int)>, int, List<(int, int)>, int>
         return calibrationSum;
     }
 
-    protected override List<(int, int)> ParseInputPart1(StreamReader input)
+    public override List<(int, int)> ParseInputPart1(StreamReader input)
     {
         List<(int, int)> calibrationNumbersP1 = [];
         while (!input.EndOfStream)

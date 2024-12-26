@@ -5,7 +5,7 @@ public class Day01 : Day<(List<int>, List<int>), int, (List<int>, Dictionary<int
     protected override int DayNumber => 1;
     protected override int Year => 2024;
 
-    protected override (List<int>, List<int>) ParseInputPart1(StreamReader input)
+    public override (List<int>, List<int>) ParseInputPart1(StreamReader input)
     {
         var list1 = new List<int>();
         var list2 = new List<int>();

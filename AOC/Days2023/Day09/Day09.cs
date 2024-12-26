@@ -5,7 +5,7 @@ public class Day09 : Day<List<List<int>>, int, List<List<int>>, int>
     protected override int DayNumber => 9;
     protected override int Year => 2023;
 
-    protected override List<List<int>> ParseInputPart1(StreamReader input)
+    public override List<List<int>> ParseInputPart1(StreamReader input)
     {
         var sequences = new List<List<int>>();
         while (!input.EndOfStream)

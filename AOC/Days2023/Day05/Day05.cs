@@ -47,7 +47,7 @@ public class Day05 : Day<Almanac, long, Almanac, long>
         return almanac;
     }
 
-    protected override Almanac ParseInputPart1(StreamReader input)
+    public override Almanac ParseInputPart1(StreamReader input)
     {
         var seeds = input.ReadLine().Replace("seeds: ", "").Split(" ");
         var seedsArray = seeds.Select(long.Parse).ToArray();

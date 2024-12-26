@@ -30,7 +30,7 @@ public class Day04 : Day<List<ScratchCard>, int, List<ScratchCard>, int>
         return allScratchCards;
     }
 
-    protected override List<ScratchCard> ParseInputPart1(StreamReader input) => ParseInput(input);
+    public override List<ScratchCard> ParseInputPart1(StreamReader input) => ParseInput(input);
 
     protected override List<ScratchCard> ParseInputPart2(StreamReader input) => ParseInput(input);
 

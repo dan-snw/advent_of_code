@@ -11,7 +11,7 @@ public class Day05
     protected override int DayNumber => 5;
     protected override int Year => 2024;
 
-    protected override (Dictionary<int, HashSet<int>>, List<List<int>>) ParseInputPart1(
+    public override (Dictionary<int, HashSet<int>>, List<List<int>>) ParseInputPart1(
         StreamReader input
     )
     {

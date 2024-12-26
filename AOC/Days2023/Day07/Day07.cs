@@ -19,7 +19,7 @@ public class Day07 : Day<List<Hand>, int, List<JokersHand>, int>
         return hands;
     }
 
-    protected override List<Hand> ParseInputPart1(StreamReader input) =>
+    public override List<Hand> ParseInputPart1(StreamReader input) =>
         ParseInput(input, Hand.CreateJacksHand);
 
     protected override List<JokersHand> ParseInputPart2(StreamReader input)
