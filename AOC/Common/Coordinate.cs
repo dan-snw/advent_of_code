@@ -1,5 +1,3 @@
-using System.Diagnostics;
-
 namespace AOC.Common;
 
 public enum CompassPoint
