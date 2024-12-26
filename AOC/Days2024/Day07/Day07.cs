@@ -25,7 +25,7 @@ public class Day07 : Day<List<(long, List<long>)>, long, List<(long, List<long>)
         ParseInputPart1(input);
 
     protected override long SolvePart2(List<(long, List<long>)> parsedInput) =>
-        SolvePart1(parsedInput);
+        parsedInput.Where(l => CanBeMadeTrue(l, ["+", "*", "||"])).Sum(line => line.Item1);
 
     private static bool CanBeMadeTrue((long, List<long>) line, string[] characters)
     {
@@ -51,6 +51,7 @@ public class Day07 : Day<List<(long, List<long>)>, long, List<(long, List<long>)
         {
             "+" => value1 + value2,
             "*" => value1 * value2,
+            "||" => long.Parse($"{value1}{value2}"),
             _ => throw new NotImplementedException(),
         };
 
@@ -58,19 +59,45 @@ public class Day07 : Day<List<(long, List<long>)>, long, List<(long, List<long>)
     {
         var combinations = new List<string[]>();
 
-        var combinationMax = "";
-        for (var i = 0; i < length; i++)
+        var possibleCombinations = Math.Pow(characters.Length, length);
+        for (var i = 0; i < possibleCombinations; i++)
         {
-            combinationMax += "1";
-        }
-
-        var fromBase = Convert.ToInt32(combinationMax, characters.Length);
-        for (var i = 0; i <= fromBase; i++)
-        {
-            var inBase = Convert.ToString(i, characters.Length).PadLeft(length, '0');
+            var inBase = DecimalToBase(i, characters.Length).PadLeft(length, '0');
             combinations.Add(inBase.Select(bit => characters[int.Parse(bit.ToString())]).ToArray());
         }
 
         return combinations;
+    }
+
+    // https://stackoverflow.com/questions/923771/quickest-way-to-convert-a-base-10-number-to-any-base-in-net
+    private static string DecimalToBase(long decimalNumber, int baseNumber)
+    {
+        const int bitsInLong = 64;
+        const string digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        if (baseNumber < 2 || baseNumber > digits.Length)
+            throw new NotImplementedException("Base must be >= 2 and <= " + digits.Length);
+
+        if (decimalNumber == 0)
+            return "0";
+
+        var index = bitsInLong - 1;
+        var currentNumber = Math.Abs(decimalNumber);
+        var charArray = new char[bitsInLong];
+
+        while (currentNumber != 0)
+        {
+            var remainder = (int)(currentNumber % baseNumber);
+            charArray[index--] = digits[remainder];
+            currentNumber /= baseNumber;
+        }
+
+        var result = new string(charArray, index + 1, bitsInLong - index - 1);
+        if (decimalNumber < 0)
+        {
+            result = "-" + result;
+        }
+
+        return result;
     }
 }
