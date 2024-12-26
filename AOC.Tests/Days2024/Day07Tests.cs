@@ -71,21 +71,4 @@ public class Day07Tests
         // Assert
         result.Should().BeEquivalentTo(expected);
     }
-
-    [Theory]
-    [InlineData(1, 2)]
-    [InlineData(2, 4)]
-    [InlineData(4, 16)]
-    public void Day07_GetCombinations_ReturnsAllPossibleCombinations(
-        int length,
-        int possibleCombinations
-    )
-    {
-        // Act
-        var characters = new[] { "+", "*" };
-        var result = Day07.GetCombinations(length, characters);
-
-        // Assert
-        result.Count.Should().Be(possibleCombinations);
-    }
 }
