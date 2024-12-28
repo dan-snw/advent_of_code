@@ -46,7 +46,12 @@ public class Day08 : Day<AntennaMap, int, AntennaMap, int>
         Coordinate coordinate2
     )
     {
-        throw new NotImplementedException();
+        var diffX = coordinate2.X - coordinate1.X;
+        var diffY = coordinate2.Y - coordinate1.Y;
+        return (
+            new(coordinate1.X - diffX, coordinate1.Y - diffY),
+            new(coordinate2.X + diffX, coordinate2.Y + diffY)
+        );
     }
 }
 
