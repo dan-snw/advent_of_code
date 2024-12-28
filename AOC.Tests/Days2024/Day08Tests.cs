@@ -93,4 +93,35 @@ public class Day08Tests
         // Assert
         result.Should().Be(0);
     }
+
+    [Theory]
+    [MemberData(nameof(CoordinatesData))]
+    public void Day08_GetAntinodes_ReturnsTwoAntinodes(
+        Coordinate coordinate1,
+        Coordinate coordinate2,
+        (Coordinate, Coordinate) expectedResults
+    ) => Day08.GetAntinodes(coordinate1, coordinate2).Should().Be(expectedResults);
+
+    public static IEnumerable<object[]> CoordinatesData =>
+        new List<object[]>
+        {
+            new object[]
+            {
+                new Coordinate(0, 0),
+                new Coordinate(1, 1),
+                (new Coordinate(-1, -1), new Coordinate(2, 2)),
+            },
+            new object[]
+            {
+                new Coordinate(0, 0),
+                new Coordinate(4, 4),
+                (new Coordinate(-4, -4), new Coordinate(8, 8)),
+            },
+            new object[]
+            {
+                new Coordinate(3, 5),
+                new Coordinate(1, 6),
+                (new Coordinate(5, 4), new Coordinate(-1, 7)),
+            },
+        };
 }

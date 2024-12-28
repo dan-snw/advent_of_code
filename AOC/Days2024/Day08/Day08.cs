@@ -40,6 +40,14 @@ public class Day08 : Day<AntennaMap, int, AntennaMap, int>
     protected override AntennaMap ParseInputPart2(StreamReader input) => ParseInputPart1(input);
 
     protected override int SolvePart2(AntennaMap parsedInput) => SolvePart1(parsedInput);
+
+    public static (Coordinate, Coordinate) GetAntinodes(
+        Coordinate coordinate1,
+        Coordinate coordinate2
+    )
+    {
+        throw new NotImplementedException();
+    }
 }
 
 public record AntennaMap(
