@@ -32,9 +32,27 @@ public class Day08 : Day<AntennaMap, int, AntennaMap, int>
         return new(antennaLocations, allLocations);
     }
 
-    protected override int SolvePart1(AntennaMap parsedInput)
+    protected override int SolvePart1(AntennaMap antennaMap)
     {
-        throw new NotImplementedException();
+        var antinodeLocations = new HashSet<Coordinate>();
+        foreach (var key in antennaMap.AntennaLocations.Keys)
+        {
+            var coordinates = antennaMap.AntennaLocations[key];
+            var tuplesToCheck = coordinates.GetCombinations();
+            foreach (var tuple in tuplesToCheck)
+            {
+                var antinodes = GetAntinodes(tuple.Item1, tuple.Item2);
+                if (antennaMap.AllCoordinates.Contains(antinodes.Item1))
+                {
+                    antinodeLocations.Add(antinodes.Item1);
+                }
+                if (antennaMap.AllCoordinates.Contains(antinodes.Item2))
+                {
+                    antinodeLocations.Add(antinodes.Item2);
+                }
+            }
+        }
+        return antinodeLocations.Count;
     }
 
     protected override AntennaMap ParseInputPart2(StreamReader input) => ParseInputPart1(input);
