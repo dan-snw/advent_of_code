@@ -2,6 +2,23 @@ namespace AOC.Common;
 
 public static class Combinations
 {
+    public static HashSet<(T, T)> GetCombinations<T>(this IEnumerable<T> elements)
+    {
+        var combinations = new HashSet<(T, T)>();
+        var list = elements.ToList();
+        for (var i = 0; i < list.Count; i++)
+        {
+            for (var j = i; j < list.Count; j++)
+            {
+                if (i != j)
+                {
+                    combinations.Add((list[i], list[j]));
+                }
+            }
+        }
+        return combinations;
+    }
+
     public static List<string[]> GetCombinations(int length, string[] characters)
     {
         var combinations = new List<string[]>();
