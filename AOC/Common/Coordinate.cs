@@ -47,8 +47,8 @@ public record Coordinate(int X, int Y)
 
 public record Vector(int X, int Y)
 {
-    public int X { get; private init; } = X;
-    public int Y { get; private init; } = Y;
+    public int X { get; } = X;
+    public int Y { get; } = Y;
 
-    public Vector Opposite => new(-X, -Y);
+    public Vector Opposite() => new(-X, -Y);
 }

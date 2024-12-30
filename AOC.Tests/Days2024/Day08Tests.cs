@@ -128,4 +128,45 @@ public class Day08Tests
                 new HashSet<Coordinate> { new(5, 4), new(-1, 7) },
             },
         };
+
+    [Fact]
+    public void Day08_GetAllAntinodesInLine_GetsAllAntinodesInLine()
+    {
+        // Arrange
+        var coordinate1 = new Coordinate(0, 0);
+        var coordinate2 = new Coordinate(2, 2);
+        var allCoordinates = new HashSet<Coordinate>
+        {
+            new(0, 0),
+            new(-1, -1),
+            new(-2, -2),
+            new(-3, -3),
+            new(-4, -4),
+            new(-5, -5),
+            new(-6, -6),
+            new(1, 1),
+            new(2, 2),
+            new(3, 3),
+            new(4, 4),
+            new(5, 5),
+            new(6, 6),
+        };
+
+        var expected = new HashSet<Coordinate>
+        {
+            new(-6, -6),
+            new(-4, -4),
+            new(-2, -2),
+            new(0, 0),
+            new(2, 2),
+            new(4, 4),
+            new(6, 6),
+        };
+
+        // Act
+        var result = Day08.GetAllAntinodesInLine(allCoordinates, coordinate1, coordinate2);
+
+        // Assert
+        result.Should().BeEquivalentTo(expected);
+    }
 }
