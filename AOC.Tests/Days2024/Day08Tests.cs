@@ -46,7 +46,7 @@ public class Day08Tests
         var result = day.ParseInputPart1(testInputStream);
 
         // Assert
-        result.AntennaLocations.Count.Should().Be(3);
+        result.AntennaLocations['A'].Count.Should().Be(3);
         result.AntennaLocations['A'].Should().Contain(new Coordinate(6, 5));
         result.AntennaLocations['A'].Should().Contain(new Coordinate(8, 8));
         result.AntennaLocations['A'].Should().Contain(new Coordinate(9, 9));
@@ -63,7 +63,7 @@ public class Day08Tests
         var result = day.ParseInputPart1(testInputStream);
 
         // Assert
-        result.AntennaLocations.Count.Should().Be(3);
+        result.AntennaLocations.Count.Should().Be(2);
     }
 
     [Fact]
@@ -91,7 +91,7 @@ public class Day08Tests
         var result = day.ParseAndSolveP2(testInputStream);
 
         // Assert
-        result.Should().Be(0);
+        result.Should().Be(34);
     }
 
     [Theory]
