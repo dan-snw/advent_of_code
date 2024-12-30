@@ -41,15 +41,8 @@ public class Day08 : Day<AntennaMap, int, AntennaMap, int>
             var tuplesToCheck = coordinates.GetCombinations();
             foreach (var tuple in tuplesToCheck)
             {
-                var antinodes = GetAntinodes(tuple.Item1, tuple.Item2);
-                if (antennaMap.AllCoordinates.Contains(antinodes.Item1))
-                {
-                    antinodeLocations.Add(antinodes.Item1);
-                }
-                if (antennaMap.AllCoordinates.Contains(antinodes.Item2))
-                {
-                    antinodeLocations.Add(antinodes.Item2);
-                }
+                var antinodes = GetAntinodes(antennaMap.AllCoordinates, tuple.Item1, tuple.Item2);
+                antinodeLocations.UnionWith(antinodes);
             }
         }
         return antinodeLocations.Count;
@@ -59,17 +52,30 @@ public class Day08 : Day<AntennaMap, int, AntennaMap, int>
 
     protected override int SolvePart2(AntennaMap parsedInput) => SolvePart1(parsedInput);
 
-    public static (Coordinate, Coordinate) GetAntinodes(
+    public static HashSet<Coordinate> GetAntinodes(
+        HashSet<Coordinate> allCoordinates,
         Coordinate coordinate1,
         Coordinate coordinate2
     )
     {
-        var diffX = coordinate2.X - coordinate1.X;
-        var diffY = coordinate2.Y - coordinate1.Y;
-        return (
-            new(coordinate1.X - diffX, coordinate1.Y - diffY),
-            new(coordinate2.X + diffX, coordinate2.Y + diffY)
-        );
+        var antinodes = new HashSet<Coordinate>();
+
+        var vector = new Vector(coordinate2.X - coordinate1.X, coordinate2.Y - coordinate1.Y);
+
+        var antinode1 = coordinate1.GetNext(vector.Opposite);
+        var antinode2 = coordinate2.GetNext(vector);
+
+        if (allCoordinates.Contains(antinode1))
+        {
+            antinodes.Add(antinode1);
+        }
+
+        if (allCoordinates.Contains(antinode2))
+        {
+            antinodes.Add(antinode2);
+        }
+
+        return antinodes;
     }
 }
 

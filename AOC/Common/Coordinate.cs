@@ -39,6 +39,16 @@ public record Coordinate(int X, int Y)
             _ => throw new("Compass point does not exist."),
         };
 
+    public Coordinate GetNext(Vector vector) => new(X + vector.X, Y + vector.Y);
+
     public static CompassPoint RotateDirection90(CompassPoint compassPoint) =>
         (int)compassPoint + 2 <= 7 ? compassPoint + 2 : compassPoint - 6;
+}
+
+public record Vector(int X, int Y)
+{
+    public int X { get; private init; } = X;
+    public int Y { get; private init; } = Y;
+
+    public Vector Opposite => new(-X, -Y);
 }

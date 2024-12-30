@@ -99,8 +99,12 @@ public class Day08Tests
     public void Day08_GetAntinodes_ReturnsTwoAntinodes(
         Coordinate coordinate1,
         Coordinate coordinate2,
-        (Coordinate, Coordinate) expectedResults
-    ) => Day08.GetAntinodes(coordinate1, coordinate2).Should().Be(expectedResults);
+        HashSet<Coordinate> expectedResults
+    ) =>
+        Day08
+            .GetAntinodes(expectedResults, coordinate1, coordinate2)
+            .Should()
+            .BeEquivalentTo(expectedResults);
 
     public static IEnumerable<object[]> CoordinatesData =>
         new List<object[]>
@@ -109,19 +113,19 @@ public class Day08Tests
             {
                 new Coordinate(0, 0),
                 new Coordinate(1, 1),
-                (new Coordinate(-1, -1), new Coordinate(2, 2)),
+                new HashSet<Coordinate> { new(-1, -1), new(2, 2) },
             },
             new object[]
             {
                 new Coordinate(0, 0),
                 new Coordinate(4, 4),
-                (new Coordinate(-4, -4), new Coordinate(8, 8)),
+                new HashSet<Coordinate> { new(-4, -4), new(8, 8) },
             },
             new object[]
             {
                 new Coordinate(3, 5),
                 new Coordinate(1, 6),
-                (new Coordinate(5, 4), new Coordinate(-1, 7)),
+                new HashSet<Coordinate> { new(5, 4), new(-1, 7) },
             },
         };
 }
