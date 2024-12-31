@@ -5,7 +5,7 @@ public class CLASS_NAME : Day<string, int, string, int>
     protected override int DayNumber => DAY_NUMBER;
     protected override int Year => YEAR_NUMBER;
 
-    protected override string ParseInputPart1(StreamReader input)
+    public override string ParseInputPart1(StreamReader input)
     {
         throw new NotImplementedException();
     }
