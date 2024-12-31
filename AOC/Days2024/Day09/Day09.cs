@@ -1,6 +1,6 @@
 namespace AOC.Days2024.Day09;
 
-public class Day09 : Day<List<string>, int, List<string>, int>
+public class Day09 : Day<List<string>, long, List<string>, long>
 {
     protected override int DayNumber => 9;
     protected override int Year => 2024;
@@ -53,12 +53,10 @@ public class Day09 : Day<List<string>, int, List<string>, int>
         return freedUp;
     }
 
-    protected override int SolvePart1(List<string> parsedInput)
-    {
-        throw new NotImplementedException();
-    }
+    protected override long SolvePart1(List<string> parsedInput) =>
+        FreeDiskSpace(parsedInput).Select((t, i) => long.Parse(t) * i).Sum();
 
     protected override List<string> ParseInputPart2(StreamReader input) => ParseInputPart1(input);
 
-    protected override int SolvePart2(List<string> parsedInput) => SolvePart1(parsedInput);
+    protected override long SolvePart2(List<string> parsedInput) => SolvePart1(parsedInput);
 }
