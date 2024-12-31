@@ -26,6 +26,33 @@ public class Day09 : Day<List<string>, int, List<string>, int>
         return uncompressed;
     }
 
+    public List<string> FreeDiskSpace(List<string> input)
+    {
+        var freedUp = new List<string>();
+        var endOfStringIndex = input.Count - 1;
+        var i = 0;
+        while (i <= endOfStringIndex)
+        {
+            if (input[i] == ".")
+            {
+                while (input[endOfStringIndex] == ".")
+                {
+                    endOfStringIndex--;
+                }
+                freedUp.Add(input[endOfStringIndex]);
+                endOfStringIndex--;
+            }
+            else
+            {
+                freedUp.Add(input[i]);
+            }
+
+            i++;
+        }
+
+        return freedUp;
+    }
+
     protected override int SolvePart1(List<string> parsedInput)
     {
         throw new NotImplementedException();
