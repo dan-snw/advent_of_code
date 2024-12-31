@@ -26,6 +26,21 @@ public class Day09Tests
     }
 
     [Fact]
+    public void Day09_FreeDiskSpace_ParsesToList()
+    {
+        // Arrange
+        var input = "00...111...2...333.44.5555.6666.777.888899".ToList().Select(s => s.ToString());
+        Day09 day = new();
+        var expected = "0099811188827773336446555566".ToList().Select(s => s.ToString());
+
+        // Act
+        var result = day.FreeDiskSpace(input.ToList());
+
+        // Assert
+        result.Should().BeEquivalentTo(expected);
+    }
+
+    [Fact]
     public void Day09_ParseAndSolveP1_ReturnCorrectAnswer()
     {
         // Arrange
