@@ -59,7 +59,55 @@ public class Day01 : Day<List<Day01.Turn>, int, List<Day01.Turn>, int>
 
     protected override List<Turn> ParseInputPart2(StreamReader input) => ParseInputPart1(input);
 
-    protected override int SolvePart2(List<Turn> parsedInput) => SolvePart1(parsedInput);
+    protected override int SolvePart2(List<Turn> parsedInput)
+    {
+        var timesOnZero = 0;
+        var currentPosition = 50;
+        foreach (var turn in parsedInput)
+        {
+            var remainder = turn.Amount % 100;
+            timesOnZero += turn.Amount / 100;
+            if (turn.Direction == LeftRight.Left)
+            {
+                if (remainder <= currentPosition)
+                {
+                    currentPosition -= remainder;
+                    if (currentPosition == 0)
+                    {
+                        timesOnZero++;
+                    }
+                }
+                else
+                {
+                    if (currentPosition != 0)
+                    {
+                        timesOnZero++;
+                    }
+                    currentPosition = 100 - (remainder - currentPosition);
+                }
+            }
+            else
+            {
+                if (currentPosition + remainder <= 99)
+                {
+                    currentPosition += remainder;
+                    if (currentPosition == 0)
+                    {
+                        timesOnZero++;
+                    }
+                }
+                else
+                {
+                    if (currentPosition != 0)
+                    {
+                        timesOnZero++;
+                    }
+                    currentPosition = remainder - (100 - currentPosition);
+                }
+            }
+        }
+        return timesOnZero;
+    }
 
     public record Turn(LeftRight Direction, int Amount);
 
