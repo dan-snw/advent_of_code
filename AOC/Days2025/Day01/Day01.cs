@@ -38,52 +38,14 @@ public class Day01 : Day<List<Day01.Turn>, int, List<Day01.Turn>, int>
 
     protected override int SolvePart2(List<Turn> parsedInput)
     {
-        var timesOnZero = 0;
+        var timesPassingThroughZero = 0;
         var currentPosition = 50;
         foreach (var turn in parsedInput)
         {
-            var remainder = turn.Amount % 100;
-            timesOnZero += turn.Amount / 100;
-            if (turn.Direction == LeftRight.Left)
-            {
-                if (remainder <= currentPosition)
-                {
-                    currentPosition -= remainder;
-                    if (currentPosition == 0)
-                    {
-                        timesOnZero++;
-                    }
-                }
-                else
-                {
-                    if (currentPosition != 0)
-                    {
-                        timesOnZero++;
-                    }
-                    currentPosition = 100 - (remainder - currentPosition);
-                }
-            }
-            else
-            {
-                if (currentPosition + remainder <= 99)
-                {
-                    currentPosition += remainder;
-                    if (currentPosition == 0)
-                    {
-                        timesOnZero++;
-                    }
-                }
-                else
-                {
-                    if (currentPosition != 0)
-                    {
-                        timesOnZero++;
-                    }
-                    currentPosition = remainder - (100 - currentPosition);
-                }
-            }
+            timesPassingThroughZero += TimesPassingThroughZero(currentPosition, turn);
+            currentPosition = GetNextPosition(currentPosition, turn);
         }
-        return timesOnZero;
+        return timesPassingThroughZero;
     }
 
     private static int GetNextPosition(int currentPosition, Turn turn)
@@ -92,6 +54,23 @@ public class Day01 : Day<List<Day01.Turn>, int, List<Day01.Turn>, int>
         return currentPosition + amountToTurnRight <= 99
             ? currentPosition + amountToTurnRight
             : currentPosition - (100 - amountToTurnRight);
+    }
+    
+    private static int TimesPassingThroughZero(int currentPosition, Turn turn)
+    {
+        var times = turn.Amount / 100;
+        var nextPosition = GetNextPosition(currentPosition, turn);
+        if (currentPosition == 0 && turn.Amount != 100)
+        {
+            return times;
+        }
+        if((nextPosition == 0 && currentPosition != 0)
+           || (turn.Direction == LeftRight.Left && nextPosition >= currentPosition)
+           || (turn.Direction == LeftRight.Right && nextPosition <= currentPosition))
+        {
+            return times + 1;
+        }
+        return times;
     }
     
     public record Turn(LeftRight Direction, int Amount);
