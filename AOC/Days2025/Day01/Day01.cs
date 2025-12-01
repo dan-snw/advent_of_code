@@ -25,30 +25,7 @@ public class Day01 : Day<List<Day01.Turn>, int, List<Day01.Turn>, int>
         var currentPosition = 50;
         foreach (var turn in parsedInput)
         {
-            var remainder = turn.Amount % 100;
-            if (turn.Direction == LeftRight.Left)
-            {
-                if (remainder <= currentPosition)
-                {
-                    currentPosition -= remainder;
-                }
-                else
-                {
-                    currentPosition = 100 - (remainder - currentPosition);
-                }
-            }
-            else
-            {
-                if (currentPosition + remainder <= 99)
-                {
-                    currentPosition += remainder;
-                }
-                else
-                {
-                    currentPosition = remainder - (100 - currentPosition);
-                }
-            }
-
+            currentPosition = GetNextPosition(currentPosition, turn);
             if (currentPosition == 0)
             {
                 timesOnZero++;
@@ -109,6 +86,14 @@ public class Day01 : Day<List<Day01.Turn>, int, List<Day01.Turn>, int>
         return timesOnZero;
     }
 
+    private static int GetNextPosition(int currentPosition, Turn turn)
+    {
+        var amountToTurnRight = turn.Direction == LeftRight.Right ? turn.Amount % 100 : 100 - turn.Amount % 100;
+        return currentPosition + amountToTurnRight <= 99
+            ? currentPosition + amountToTurnRight
+            : currentPosition - (100 - amountToTurnRight);
+    }
+    
     public record Turn(LeftRight Direction, int Amount);
 
     public enum LeftRight
