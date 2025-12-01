@@ -33,6 +33,6 @@ public class Day01Tests
         var result = day.ParseAndSolveP2(testInputStream);
 
         // Assert
-        result.Should().Be(0);
+        result.Should().Be(6);
     }
 }
