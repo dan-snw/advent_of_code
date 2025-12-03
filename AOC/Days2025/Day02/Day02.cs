@@ -27,26 +27,20 @@ public class Day02 : Day<List<(long, long)>, long, List<(long, long)>, long>
     private static long TotalInvalidCodesInRange((long, long) pair)
     {
         var invalidTotal = (long)0;
-        var currentIndex = pair.Item1 - 1;
-        while (currentIndex <= pair.Item2)
+        var code = pair.Item1;
+        while (code <= pair.Item2)
         {
-            var indexAsString = currentIndex.ToString();
-            if (indexAsString.Length % 2 != 0)
+            if (IsInvalidCodePartOne(code.ToString()))
             {
-                currentIndex = (long)Math.Pow(10, indexAsString.Length);
-                continue;
+                invalidTotal += code;
             }
-            var firstHalf = int.Parse(indexAsString[..(indexAsString.Length / 2)]);
-            var invalidCode = long.Parse($"{firstHalf}{firstHalf}");
-            if (invalidCode >= pair.Item1 && invalidCode <= pair.Item2)
-            {
-                invalidTotal += long.Parse($"{firstHalf}{firstHalf}");
-            }
-            currentIndex = long.Parse($"{firstHalf + 1}{firstHalf}");
+            code++;
         }
-        
         return invalidTotal;
     }
+
+    private static bool IsInvalidCodePartOne(string code) =>
+        code[..(code.Length / 2)] == code[(code.Length / 2)..];
 
     protected override List<(long, long)> ParseInputPart2(StreamReader input) => ParseInputPart1(input);
 
