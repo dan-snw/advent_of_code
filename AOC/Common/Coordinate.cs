@@ -43,6 +43,18 @@ public record Coordinate(int X, int Y)
 
     public static CompassPoint RotateDirection90(CompassPoint compassPoint) =>
         (int)compassPoint + 2 <= 7 ? compassPoint + 2 : compassPoint - 6;
+    
+    public HashSet<Coordinate> GetSurrounding() =>
+    [
+        GetNext(CompassPoint.North),
+        GetNext(CompassPoint.NorthEast),
+        GetNext(CompassPoint.East),
+        GetNext(CompassPoint.SouthEast),
+        GetNext(CompassPoint.South),
+        GetNext(CompassPoint.SouthWest),
+        GetNext(CompassPoint.West),
+        GetNext(CompassPoint.NorthWest)
+    ];
 }
 
 public record Vector(int X, int Y)
