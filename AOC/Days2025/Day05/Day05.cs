@@ -1,6 +1,6 @@
 namespace AOC.Days2025.Day05;
 
-public class Day05 : Day<Inventory, int, Inventory, int>
+public class Day05 : Day<Inventory, int, Inventory, long>
 {
     protected override int DayNumber => 5;
     protected override int Year => 2025;
@@ -37,7 +37,18 @@ public class Day05 : Day<Inventory, int, Inventory, int>
     
     protected override Inventory ParseInputPart2(StreamReader input) => ParseInputPart1(input);
 
-    protected override int SolvePart2(Inventory inventory) => SolvePart1(inventory);
+    protected override long SolvePart2(Inventory inventory)
+    {
+        var freshIngredients = new HashSet<long>();
+        foreach (var range in inventory.Ranges)
+        {
+            for(var i =  range.Lower; i <= range.Upper; i++)
+            {
+                freshIngredients.Add(i);
+            }
+        }
+        return freshIngredients.Count;
+    }
 }
 
 public record Inventory(HashSet<(long Lower, long Upper)> Ranges, HashSet<long> Ingredients);
