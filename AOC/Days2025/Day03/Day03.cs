@@ -21,7 +21,7 @@ public class Day03 : Day<List<List<int>>, long, List<List<int>>, long>
         (from bank in parsedInput 
             let firstDigit = GetHighestValueIndex(bank, 0, bank.Count - 1) 
             let secondDigit = GetHighestValueIndex(bank, firstDigit.Index + 1)
-            select int.Parse($"{firstDigit.Value}{secondDigit.Value}"))
+            select long.Parse($"{firstDigit.Value}{secondDigit.Value}"))
         .Sum();
 
     private ValueIndex GetHighestValueIndex(List<int> list, int start, int? end = null)
@@ -44,7 +44,28 @@ public class Day03 : Day<List<List<int>>, long, List<List<int>>, long>
 
     protected override List<List<int>> ParseInputPart2(StreamReader input) => ParseInputPart1(input);
 
-    protected override long SolvePart2(List<List<int>> parsedInput) => SolvePart1(parsedInput);
+    protected override long SolvePart2(List<List<int>> parsedInput)
+    {
+        var sum = (long)0;
+        foreach (var bank in parsedInput)
+        {
+            var battery = "";
+            
+            var valueIndex = new ValueIndex
+            {
+                Value = 0,
+                Index = -1
+            };
+            
+            for (var i = 11; i >= 0; i--)
+            {
+                valueIndex = GetHighestValueIndex(bank, valueIndex.Index + 1, bank.Count - i);
+                battery = $"{battery}{valueIndex.Value}";
+            }
+            sum += long.Parse(battery);
+        }
+        return sum;
+    }
 }
 
 public record ValueIndex
