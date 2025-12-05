@@ -1,3 +1,4 @@
+using System.Security.Principal;
 using AOC.Common;
 
 namespace AOC.Days2025.Day04;
@@ -31,5 +32,34 @@ public class Day04 : Day<FiniteGrid<bool>, int, FiniteGrid<bool>, int>
 
     protected override FiniteGrid<bool> ParseInputPart2(StreamReader input) => ParseInputPart1(input);
 
-    protected override int SolvePart2(FiniteGrid<bool> parsedInput) => SolvePart1(parsedInput);
+    protected override int SolvePart2(FiniteGrid<bool> grid)
+    {
+        int count = 0;
+        for (var i = 0; i < 1000; i++)
+        {
+            foreach (var coordinate in grid.Coordinates.Keys)
+            {
+                if (grid.CheckCoordinateValue(coordinate, true))
+                {
+                    var surrounding = grid.GetSurroundings(coordinate);
+                    var countOfSurrounding = 0;
+                    foreach (var surroundingCoordinate in surrounding)
+                    {
+                        if (grid.CheckCoordinateValue(surroundingCoordinate, true))
+                        {
+                            countOfSurrounding++;
+                        }
+                    }
+
+                    if (countOfSurrounding < 4)
+                    {
+                        grid.UpdateValue(coordinate, false);
+                        count++;
+                    }
+                        
+                }
+            }
+        }
+        return count;
+    }
 }

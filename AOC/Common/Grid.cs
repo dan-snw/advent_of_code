@@ -25,6 +25,10 @@ public class FiniteGrid<TValue> : IGrid
 
     public TValue GetValue(Coordinate coordinate) => Coordinates[coordinate];
 
+    public void UpdateValue(Coordinate surroundingCoordinate, TValue value)
+    {
+        Coordinates[surroundingCoordinate] = value;
+    }
 }
 
 public class InfiniteGrid : IGrid
