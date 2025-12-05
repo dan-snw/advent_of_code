@@ -23,31 +23,11 @@ public class Day04 : Day<FiniteGrid<bool>, int, FiniteGrid<bool>, int>
         return map;
     }
 
-    protected override int SolvePart1(FiniteGrid<bool> grid)
-    {
-        var total = 0;
-        foreach (var coordinate in grid.Coordinates.Keys)
-        {
-            if (grid.CheckCoordinateValue(coordinate, true))
-            {
-                var surrounding = grid.GetSurroundings(coordinate);
-                var sum = 0;
-                foreach (var surroundingCoordinate in surrounding)
-                {
-                    if (grid.GetValue(surroundingCoordinate))
-                    {
-                        sum++;
-                    }
-                }
-
-                if (sum < 4)
-                {
-                    total++;
-                }
-            }
-        }
-        return total;
-    }
+    protected override int SolvePart1(FiniteGrid<bool> grid) => 
+        (from coordinate in grid.Coordinates.Keys
+            where grid.CheckCoordinateValue(coordinate, true)
+            select grid.GetSurroundings(coordinate))
+        .Count(surrounding => surrounding.Count(grid.GetValue) < 4);
 
     protected override FiniteGrid<bool> ParseInputPart2(StreamReader input) => ParseInputPart1(input);
 
