@@ -2,39 +2,39 @@ using AOC.Common;
 
 namespace AOC.Days2025.Day04;
 
-public class Day04 : Day<Dictionary<Coordinate, bool>, int, Dictionary<Coordinate, bool>, int>
+public class Day04 : Day<FiniteGrid<bool>, int, FiniteGrid<bool>, int>
 {
     protected override int DayNumber => 4;
     protected override int Year => 2025;
 
-    public override Dictionary<Coordinate, bool> ParseInputPart1(StreamReader input)
+    public override FiniteGrid<bool> ParseInputPart1(StreamReader input)
     {
-        var map = new Dictionary<Coordinate, bool>();
+        var map = new FiniteGrid<bool>();
         var y = 0;
         while (!input.EndOfStream)
         {
             var line = input.ReadLine()!;
             for (var x = 0; x < line.Length; x++)
             {
-                map.Add(new Coordinate(x, y), line[x] == '@');
+                map.AddCoordinate(new Coordinate(x, y), line[x] == '@');
             }
             y++;
         }
         return map;
     }
 
-    protected override int SolvePart1(Dictionary<Coordinate, bool> parsedInput)
+    protected override int SolvePart1(FiniteGrid<bool> grid)
     {
         var total = 0;
-        foreach (var coordinate in parsedInput.Keys)
+        foreach (var coordinate in grid.Coordinates.Keys)
         {
-            if (parsedInput[coordinate])
+            if (grid.CheckCoordinateValue(coordinate, true))
             {
-                var surrounding = coordinate.GetSurrounding();
+                var surrounding = grid.GetSurroundings(coordinate);
                 var sum = 0;
                 foreach (var surroundingCoordinate in surrounding)
                 {
-                    if (parsedInput.TryGetValue(surroundingCoordinate, out var value) && value)
+                    if (grid.GetValue(surroundingCoordinate))
                     {
                         sum++;
                     }
@@ -49,7 +49,7 @@ public class Day04 : Day<Dictionary<Coordinate, bool>, int, Dictionary<Coordinat
         return total;
     }
 
-    protected override Dictionary<Coordinate, bool> ParseInputPart2(StreamReader input) => ParseInputPart1(input);
+    protected override FiniteGrid<bool> ParseInputPart2(StreamReader input) => ParseInputPart1(input);
 
-    protected override int SolvePart2(Dictionary<Coordinate, bool> parsedInput) => SolvePart1(parsedInput);
+    protected override int SolvePart2(FiniteGrid<bool> parsedInput) => SolvePart1(parsedInput);
 }
