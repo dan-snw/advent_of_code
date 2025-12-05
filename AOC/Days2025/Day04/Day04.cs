@@ -33,9 +33,11 @@ public class Day04 : Day<FiniteGrid<bool>, int, FiniteGrid<bool>, int>
 
     protected override int SolvePart2(FiniteGrid<bool> grid)
     {
-        var count = 0;
-        for (var i = 0; i < 1000; i++)
+        int? oldCount = null;
+        var newCount = 0;
+        while (oldCount != newCount)
         {
+            oldCount = newCount;
             foreach (var coordinate in from coordinate in grid.Coordinates.Keys
                      where grid.CheckCoordinateValue(coordinate, true)
                      let surrounding = grid.GetSurroundings(coordinate)
@@ -44,9 +46,9 @@ public class Day04 : Day<FiniteGrid<bool>, int, FiniteGrid<bool>, int>
                      where countOfSurrounding < 4 select coordinate)
             {
                 grid.UpdateValue(coordinate, false);
-                count++;
+                newCount++;
             }
         }
-        return count;
+        return newCount;
     }
 }
