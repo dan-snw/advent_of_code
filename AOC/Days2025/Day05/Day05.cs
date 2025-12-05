@@ -1,21 +1,53 @@
 namespace AOC.Days2025.Day05;
 
-public class Day05 : Day<string, int, string, int>
+public class Day05 : Day<Inventory, int, Inventory, int>
 {
     protected override int DayNumber => 5;
     protected override int Year => 2025;
 
-    public override string ParseInputPart1(StreamReader input)
+    public override Inventory ParseInputPart1(StreamReader input)
     {
-        throw new NotImplementedException();
+        var inventory = new Inventory([], []);
+        
+        while (true)
+        {
+            var line = input.ReadLine()!;
+            if (!line.Contains('-'))
+            {
+                break;
+            }
+            var ranges = line!.Split('-').Select(long.Parse).ToList()!;
+            inventory.Ranges.Add((ranges[0], ranges[1]));
+        }
+        
+        while (!input.EndOfStream)
+        {
+            var line = input.ReadLine()!;
+            inventory.Ingredients.Add(long.Parse(line)); 
+        }
+        return inventory;
     }
 
-    protected override int SolvePart1(string parsedInput)
+    protected override int SolvePart1(Inventory inventory)
     {
-        throw new NotImplementedException();
+        var numberOfFreshIngredients = 0;
+        foreach (var ingredient in inventory.Ingredients)
+        {
+            foreach (var range in inventory.Ranges)
+            {
+                if (ingredient >= range.Lower && ingredient <= range.Upper)
+                {
+                    numberOfFreshIngredients++;
+                    break;
+                }
+            }
+        }
+        return numberOfFreshIngredients;
     }
 
-    protected override string ParseInputPart2(StreamReader input) => ParseInputPart1(input);
+    protected override Inventory ParseInputPart2(StreamReader input) => ParseInputPart1(input);
 
-    protected override int SolvePart2(string parsedInput) => SolvePart1(parsedInput);
+    protected override int SolvePart2(Inventory inventory) => SolvePart1(inventory);
 }
+
+public record Inventory(HashSet<(long Lower, long Upper)> Ranges, HashSet<long> Ingredients);
