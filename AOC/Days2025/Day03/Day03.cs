@@ -24,24 +24,6 @@ public class Day03 : Day<List<List<int>>, long, List<List<int>>, long>
             select long.Parse($"{firstDigit.Value}{secondDigit.Value}"))
         .Sum();
 
-    private ValueIndex GetHighestValueIndex(List<int> list, int start, int? end = null)
-    {
-        var valueIndex = new ValueIndex
-        {
-            Value = 0,
-            Index = start - 1
-        };
-        
-        for (var i = start; i < (end ?? list.Count); i++)
-        {
-            if (list[i] <= valueIndex.Value) continue;
-            valueIndex.Value = list[i];
-            valueIndex.Index = i;
-        }
-        return valueIndex;
-    }
-        
-
     protected override List<List<int>> ParseInputPart2(StreamReader input) => ParseInputPart1(input);
 
     protected override long SolvePart2(List<List<int>> parsedInput)
@@ -66,6 +48,24 @@ public class Day03 : Day<List<List<int>>, long, List<List<int>>, long>
         }
         return sum;
     }
+    
+    private ValueIndex GetHighestValueIndex(List<int> list, int start, int? end = null)
+    {
+        var valueIndex = new ValueIndex
+        {
+            Value = 0,
+            Index = start - 1
+        };
+        
+        for (var i = start; i < (end ?? list.Count); i++)
+        {
+            if (list[i] <= valueIndex.Value) continue;
+            valueIndex.Value = list[i];
+            valueIndex.Index = i;
+        }
+        return valueIndex;
+    }
+    
 }
 
 public record ValueIndex
