@@ -1,8 +1,6 @@
-using System.Transactions;
-
 namespace AOC.Days2025.Day03;
 
-public class Day03 : Day<List<List<int>>, int, List<List<int>>, int>
+public class Day03 : Day<List<List<int>>, long, List<List<int>>, long>
 {
     protected override int DayNumber => 3;
     protected override int Year => 2025;
@@ -19,7 +17,7 @@ public class Day03 : Day<List<List<int>>, int, List<List<int>>, int>
         return banks;
     }
 
-    protected override int SolvePart1(List<List<int>> parsedInput) => 
+    protected override long SolvePart1(List<List<int>> parsedInput) => 
         (from bank in parsedInput 
             let firstDigit = GetHighestValueIndex(bank, 0, bank.Count - 1) 
             let secondDigit = GetHighestValueIndex(bank, firstDigit.Index + 1)
@@ -46,7 +44,7 @@ public class Day03 : Day<List<List<int>>, int, List<List<int>>, int>
 
     protected override List<List<int>> ParseInputPart2(StreamReader input) => ParseInputPart1(input);
 
-    protected override int SolvePart2(List<List<int>> parsedInput) => SolvePart1(parsedInput);
+    protected override long SolvePart2(List<List<int>> parsedInput) => SolvePart1(parsedInput);
 }
 
 public record ValueIndex

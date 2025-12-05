@@ -37,6 +37,6 @@ public class Day03Tests
         var result = day.ParseAndSolveP2(testInputStream);
 
         // Assert
-        result.Should().Be(0);
+        result.Should().Be(3121910778619);
     }
 }
