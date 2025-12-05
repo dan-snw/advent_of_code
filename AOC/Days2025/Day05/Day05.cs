@@ -28,23 +28,13 @@ public class Day05 : Day<Inventory, int, Inventory, int>
         return inventory;
     }
 
-    protected override int SolvePart1(Inventory inventory)
-    {
-        var numberOfFreshIngredients = 0;
-        foreach (var ingredient in inventory.Ingredients)
-        {
-            foreach (var range in inventory.Ranges)
-            {
-                if (ingredient >= range.Lower && ingredient <= range.Upper)
-                {
-                    numberOfFreshIngredients++;
-                    break;
-                }
-            }
-        }
-        return numberOfFreshIngredients;
-    }
+    protected override int SolvePart1(Inventory inventory) => inventory.Ingredients
+        .Count(ingredient => inventory.Ranges.Any(range =>
+            InRange(ingredient, range.Lower, range.Upper) 
+            ));
 
+    private static bool InRange(long number, long lower, long upper) => number >= lower && number <= upper;
+    
     protected override Inventory ParseInputPart2(StreamReader input) => ParseInputPart1(input);
 
     protected override int SolvePart2(Inventory inventory) => SolvePart1(inventory);
