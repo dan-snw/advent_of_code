@@ -38,14 +38,7 @@ public class Day07 : Day<FiniteGrid<bool>, int, FiniteGrid<bool>, int>
 
         while (beamEnds.Count > 0)
         {
-            foreach (var point in beamEnds)
-            {
-                if (grid.CheckCoordinateValue(point, true))
-                {
-                    total++;
-                }
-            }
-
+            total += beamEnds.Count(point => grid.CheckCoordinateValue(point, true));
             beamEnds = GetNextBeamEnds(beamEnds, grid);
         }
 
