@@ -76,7 +76,42 @@ public class Day07 : Day<FiniteGrid<bool>, int, FiniteGrid<bool>, int>
         return nextBeamEnds;
     }
     
-    protected override FiniteGrid<bool> ParseInputPart2(StreamReader input) => ParseInputPart1(input);
+    protected override FiniteGrid<bool> ParseInputPart2(StreamReader input)
+    {
+        return ParseInputPart1(input);
+    }
 
-    protected override int SolvePart2(FiniteGrid<bool> parsedInput) => SolvePart1(parsedInput);
+    protected override int SolvePart2(FiniteGrid<bool> grid)
+    {
+        var possiblePaths = new HashSet<string>();
+        for (var i = 0; i < 1000000; i++)
+        {
+            possiblePaths.Add(ChartRandomPath(grid));
+        }
+        return possiblePaths.Count;
+    }
+
+    private string ChartRandomPath(FiniteGrid<bool> grid)
+    {
+        var position = grid.Start!;
+        var visited = "";
+        while (grid.InGrid(position))
+        {
+            visited = $"{visited}{position.X}{position.Y}";
+            if (!grid.GetValue(position))
+            {
+                position = position.GetNext(CompassPoint.South);
+            }
+            else
+            {
+                var random = new Random();
+                var goLeft = random.NextDouble() >= 0.5;
+                position = goLeft
+                    ? position.GetNext(CompassPoint.SouthWest)
+                    : position.GetNext(CompassPoint.SouthEast);
+            }
+        }
+
+        return visited;
+    }
 }
