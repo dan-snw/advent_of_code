@@ -2,7 +2,7 @@ using AOC.Common;
 
 namespace AOC.Days2025.Day07;
 
-public class Day07 : Day<FiniteGrid<bool>, int, FiniteGrid<bool>, int>
+public class Day07 : Day<FiniteGrid<bool>, int, FiniteGrid<bool>, ulong>
 {
     protected override int DayNumber => 7;
     protected override int Year => 2025;
@@ -81,69 +81,75 @@ public class Day07 : Day<FiniteGrid<bool>, int, FiniteGrid<bool>, int>
         return ParseInputPart1(input);
     }
 
-    protected override int SolvePart2(FiniteGrid<bool> grid)
+    protected override ulong SolvePart2(FiniteGrid<bool> grid)
     {
-        var beamEnds = new Dictionary<Coordinate, HashSet<string>>();
-        beamEnds.Add(grid.Start!, ["S"]);
+        var total = (ulong)1;
+        var beamEnds = new Dictionary<Coordinate, ulong>();
+        beamEnds.Add(grid.Start!, 1);
 
-        var y = 0;
-        while (grid.InGrid(new Coordinate(0, y)))
+        while (beamEnds.Count > 0)
         {
-            beamEnds = GetNextBeamEnds(beamEnds, grid);
-            y++;
-        }
-        
-        var total = 0;
-        foreach (var point in beamEnds)
-        {
-            total += point.Value.Count;
+            var nextBeamEnds = GetNextBeamEndsAndCount(beamEnds, grid);
+            total += nextBeamEnds.Item1;
+            beamEnds = nextBeamEnds.Item2;
         }
 
         return total;
-
     }
     
-    private Dictionary<Coordinate, HashSet<string>> GetNextBeamEnds(Dictionary<Coordinate, HashSet<string>> currentBeamEnds, FiniteGrid<bool> grid)
+    private (ulong, Dictionary<Coordinate, ulong>) GetNextBeamEndsAndCount(Dictionary<Coordinate, ulong> currentBeamEnds, FiniteGrid<bool> grid)
     {
-        var nextBeamEnds = new Dictionary<Coordinate,  HashSet<string>>();
+        var count = (ulong)0;
+        var nextBeamEnds = new Dictionary<Coordinate, ulong>();
         foreach (var point in currentBeamEnds)
         {
             if (grid.GetValue(point.Key))
             {
+                count += point.Value;
                 var leftBelow = point.Key.GetNext(CompassPoint.SouthWest);
                 var rightBelow = point.Key.GetNext(CompassPoint.SouthEast);
 
-                if (!nextBeamEnds.ContainsKey(leftBelow))
+                if (grid.InGrid(leftBelow))
                 {
-                    nextBeamEnds.Add(leftBelow, new HashSet<string>());
+                    if (nextBeamEnds.ContainsKey(leftBelow))
+                    {
+                        nextBeamEnds[leftBelow] += point.Value;
+                    }
+
+                    else
+                    {
+                        nextBeamEnds.Add(leftBelow, point.Value);
+                    }
                 }
-                foreach (var path in point.Value)
+                if (grid.InGrid(rightBelow))
                 {
-                    nextBeamEnds[leftBelow].Add($"{path}{leftBelow.X}{leftBelow.Y}");
-                }
-                if (!nextBeamEnds.ContainsKey(rightBelow))
-                {
-                    nextBeamEnds.Add(rightBelow, new HashSet<string>());
-                }
-                foreach (var path in point.Value)
-                {
-                    nextBeamEnds[rightBelow].Add($"{path}{rightBelow.X}{rightBelow.Y}");
+                    if (nextBeamEnds.ContainsKey(rightBelow))
+                    {
+                        nextBeamEnds[rightBelow] += point.Value;
+                    }
+
+                    else
+                    {
+                        nextBeamEnds.Add(rightBelow, point.Value);
+                    }
                 }
             }
             else
             {
                 var next = point.Key.GetNext(CompassPoint.South);
-                if (!nextBeamEnds.ContainsKey(next))
+                if (grid.InGrid(next))
                 {
-                    nextBeamEnds.Add(next, new HashSet<string>());
-                }
-                foreach (var path in point.Value)
-                {
-                    nextBeamEnds[next].Add($"{path}{next.X}{next.Y}");
+                    if (nextBeamEnds.ContainsKey(next))
+                    {
+                        nextBeamEnds[next] += point.Value;
+                    }
+                    else
+                    {
+                        nextBeamEnds.Add(next, point.Value);
+                    }
                 }
             }
         }
-        return nextBeamEnds;
+        return (count, nextBeamEnds);
     }
-    
 }
