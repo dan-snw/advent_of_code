@@ -1,21 +1,89 @@
+using AOC.Common;
+
 namespace AOC.Days2025.Day07;
 
-public class Day07 : Day<string, int, string, int>
+public class Day07 : Day<FiniteGrid<bool>, int, FiniteGrid<bool>, int>
 {
     protected override int DayNumber => 7;
     protected override int Year => 2025;
 
-    public override string ParseInputPart1(StreamReader input)
+    public override FiniteGrid<bool> ParseInputPart1(StreamReader input)
     {
-        throw new NotImplementedException();
+        var map = new FiniteGrid<bool>();
+        var y = 0;
+        while (!input.EndOfStream)
+        {
+            var line = input.ReadLine()!;
+            for (var x = 0; x < line.Length; x++)
+            {
+                if (line[x] == 'S')
+                {
+                    map.Start = new Coordinate(x, y);
+                }
+                map.AddCoordinate(new Coordinate(x, y), line[x] == '^');
+            }
+            y++;
+        }
+
+        return map;
     }
 
-    protected override int SolvePart1(string parsedInput)
+    protected override int SolvePart1(FiniteGrid<bool> grid)
     {
-        throw new NotImplementedException();
+        var total = 0;
+        var beamEnds = new HashSet<Coordinate>
+        {
+            grid.Start!
+        };
+
+        while (beamEnds.Count > 0)
+        {
+            foreach (var point in beamEnds)
+            {
+                if (grid.CheckCoordinateValue(point, true))
+                {
+                    total++;
+                }
+            }
+
+            beamEnds = GetNextBeamEnds(beamEnds, grid);
+        }
+
+        return total;
     }
 
-    protected override string ParseInputPart2(StreamReader input) => ParseInputPart1(input);
+    private HashSet<Coordinate> GetNextBeamEnds(HashSet<Coordinate> currentBeamEnds, FiniteGrid<bool> grid)
+    {
+        var nextBeamEnds = new HashSet<Coordinate>();
+        foreach (var point in currentBeamEnds)
+        {
+            if (grid.GetValue(point))
+            {
+                var leftBelow = point.GetNext(CompassPoint.SouthWest);
+                var rightBelow = point.GetNext(CompassPoint.SouthEast);
 
-    protected override int SolvePart2(string parsedInput) => SolvePart1(parsedInput);
+                if (grid.InGrid(leftBelow))
+                {
+                    nextBeamEnds.Add(leftBelow);
+                }
+                if (grid.InGrid(rightBelow))
+                {
+                    nextBeamEnds.Add(rightBelow);
+                }
+            }
+            else
+            {
+                var next = point.GetNext(CompassPoint.South);
+                if (grid.InGrid(next))
+                {
+                    nextBeamEnds.Add(next);
+                }
+            }
+        }
+        return nextBeamEnds;
+    }
+    
+    protected override FiniteGrid<bool> ParseInputPart2(StreamReader input) => ParseInputPart1(input);
+
+    protected override int SolvePart2(FiniteGrid<bool> parsedInput) => SolvePart1(parsedInput);
 }
