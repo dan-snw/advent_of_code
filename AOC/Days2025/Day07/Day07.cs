@@ -84,17 +84,20 @@ public class Day07 : Day<FiniteGrid<bool>, int, FiniteGrid<bool>, int>
     protected override int SolvePart2(FiniteGrid<bool> grid)
     {
         var possiblePaths = new HashSet<string>();
-        for (var i = 0; i < 1000000; i++)
+        var numberOfSplits = SolvePart1(grid);
+        var possibleDecisions = Combinations.GetCombinations(numberOfSplits, ["L", "R"]);
+        foreach (var possibleDecision in possibleDecisions)
         {
-            possiblePaths.Add(ChartRandomPath(grid));
+            possiblePaths.Add(ChartPath(grid, possibleDecision));
         }
         return possiblePaths.Count;
     }
 
-    private string ChartRandomPath(FiniteGrid<bool> grid)
+    private string ChartPath(FiniteGrid<bool> grid, string[] pathway)
     {
         var position = grid.Start!;
         var visited = "";
+        var i = 0;
         while (grid.InGrid(position))
         {
             visited = $"{visited}{position.X}{position.Y}";
@@ -104,12 +107,13 @@ public class Day07 : Day<FiniteGrid<bool>, int, FiniteGrid<bool>, int>
             }
             else
             {
-                var random = new Random();
-                var goLeft = random.NextDouble() >= 0.5;
+                var goLeft = pathway[i] == "L";
                 position = goLeft
                     ? position.GetNext(CompassPoint.SouthWest)
                     : position.GetNext(CompassPoint.SouthEast);
             }
+
+            i++;
         }
 
         return visited;
