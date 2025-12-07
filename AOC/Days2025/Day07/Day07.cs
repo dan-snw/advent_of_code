@@ -83,39 +83,67 @@ public class Day07 : Day<FiniteGrid<bool>, int, FiniteGrid<bool>, int>
 
     protected override int SolvePart2(FiniteGrid<bool> grid)
     {
-        var possiblePaths = new HashSet<string>();
-        var numberOfSplits = SolvePart1(grid);
-        var possibleDecisions = Combinations.GetCombinations(numberOfSplits, ["L", "R"]);
-        foreach (var possibleDecision in possibleDecisions)
-        {
-            possiblePaths.Add(ChartPath(grid, possibleDecision));
-        }
-        return possiblePaths.Count;
-    }
+        var beamEnds = new Dictionary<Coordinate, HashSet<string>>();
+        beamEnds.Add(grid.Start!, ["S"]);
 
-    private string ChartPath(FiniteGrid<bool> grid, string[] pathway)
-    {
-        var position = grid.Start!;
-        var visited = "";
-        var i = 0;
-        while (grid.InGrid(position))
+        var y = 0;
+        while (grid.InGrid(new Coordinate(0, y)))
         {
-            visited = $"{visited}{position.X}{position.Y}";
-            if (!grid.GetValue(position))
+            beamEnds = GetNextBeamEnds(beamEnds, grid);
+            y++;
+        }
+        
+        var total = 0;
+        foreach (var point in beamEnds)
+        {
+            total += point.Value.Count;
+        }
+
+        return total;
+
+    }
+    
+    private Dictionary<Coordinate, HashSet<string>> GetNextBeamEnds(Dictionary<Coordinate, HashSet<string>> currentBeamEnds, FiniteGrid<bool> grid)
+    {
+        var nextBeamEnds = new Dictionary<Coordinate,  HashSet<string>>();
+        foreach (var point in currentBeamEnds)
+        {
+            if (grid.GetValue(point.Key))
             {
-                position = position.GetNext(CompassPoint.South);
+                var leftBelow = point.Key.GetNext(CompassPoint.SouthWest);
+                var rightBelow = point.Key.GetNext(CompassPoint.SouthEast);
+
+                if (!nextBeamEnds.ContainsKey(leftBelow))
+                {
+                    nextBeamEnds.Add(leftBelow, new HashSet<string>());
+                }
+                foreach (var path in point.Value)
+                {
+                    nextBeamEnds[leftBelow].Add($"{path}{leftBelow.X}{leftBelow.Y}");
+                }
+                if (!nextBeamEnds.ContainsKey(rightBelow))
+                {
+                    nextBeamEnds.Add(rightBelow, new HashSet<string>());
+                }
+                foreach (var path in point.Value)
+                {
+                    nextBeamEnds[rightBelow].Add($"{path}{rightBelow.X}{rightBelow.Y}");
+                }
             }
             else
             {
-                var goLeft = pathway[i] == "L";
-                position = goLeft
-                    ? position.GetNext(CompassPoint.SouthWest)
-                    : position.GetNext(CompassPoint.SouthEast);
+                var next = point.Key.GetNext(CompassPoint.South);
+                if (!nextBeamEnds.ContainsKey(next))
+                {
+                    nextBeamEnds.Add(next, new HashSet<string>());
+                }
+                foreach (var path in point.Value)
+                {
+                    nextBeamEnds[next].Add($"{path}{next.X}{next.Y}");
+                }
             }
-
-            i++;
         }
-
-        return visited;
+        return nextBeamEnds;
     }
+    
 }
