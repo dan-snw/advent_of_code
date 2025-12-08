@@ -8,6 +8,7 @@ public interface IGrid
 public class FiniteGrid<TValue> : IGrid
 {
     public Dictionary<Coordinate, TValue> Coordinates = new();
+    public Coordinate? Start = null;
     
     public void AddCoordinate(Coordinate coordinate, TValue value) =>
         Coordinates.Add(coordinate, value);
